@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Kurs Reacta - Tydzień 2</title>
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
     <style>
         .App {
             font-family: sans-serif;
@@ -47,13 +49,13 @@
             height: 25px;
             margin-bottom: 20px;
             padding: 5px;
-            background-color: orangered;
+            /* background-color: orangered; */
         }
 
-        /* .ProgressBar > div {
+        .ProgressBar > div {
             height: 100%;
             background-color: orangered;
-        } */
+        }
 
         .inactive {
             filter: blur(2px) grayscale(1);
@@ -73,7 +75,9 @@
         <div class="Timebox">
             <h1>Ucze sie skrotow klawiszowych</h1>
             <h2 class="Clock">Pozostało 13:28</h2>
-            <div class="ProgressBar" style="max-width:100%; margin-left:20%;">               
+            <div id="root"></div>
+            <div class="ProgressBar">
+                <div style="width: 45%"></div>
             </div>
             <button disabled>Start</button>
             <button>Stop</button>
@@ -84,5 +88,20 @@
 
     </div>
 </body>
+<script type="text/javascript">
+const rootElement = document.getElementById("root");
 
+const domElement = document.createElement("h2");
+domElement.className = "Clock";
+domElement.textContent = "Pozostało 10:20";
+
+//rootElement.append(domElement);
+
+const element = React.createElement(
+    "h2",
+    {className: "Clock", children: "Pozostało 15:25"}    
+);
+
+ReactDOM.render(element, rootElement);
+</script>
 </html>
