@@ -67,14 +67,14 @@
     <h1>Kurs Reacta Tydzień 2 </h1>
     <hr>
     <div class="App">
-        <div class="TimeboxEditor inactive">
+        <!-- <div class="TimeboxEditor inactive">
             <label>Co robisz? <input disabled value="Uczę się skrótów klawiszowych" type="text"></label><br>
             <label>Ile minut? <input disabled value="25" type="number"></label><br>
             <button>Zacznij</button>
-        </div>
+        </div> -->
         <div class="Timebox">
             <h1>Ucze sie skrotow klawiszowych</h1>
-            <h2 class="Clock">Pozostało 13:28</h2>
+            <!-- <h2 class="Clock">Pozostało 13:28</h2> -->
             <div id="root"></div>
             <div class="ProgressBar">
                 <div style="width: 45%"></div>
@@ -88,20 +88,65 @@
 
     </div>
 </body>
+
+
 <script type="text/javascript">
 const rootElement = document.getElementById("root");
 
-const domElement = document.createElement("h2");
-domElement.className = "Clock";
-domElement.textContent = "Pozostało 10:20";
+const title = document.createElement("h1");
+title.textContent = "Kurs Reacta Tydzień 2";
+const hrElement = document.createElement("hr");
+const appDiv = document.createElement("div");
+appDiv.className = "App";
 
-//rootElement.append(domElement);
+    const timeboxEditorDiv = document.createElement("div");
+    timeboxEditorDiv.className = "TimeboxEditor inactive";
+        const label01 = document.createElement("label");
+        label01.textContent = "Co robisz?";
+        const brElement = document.createElement("br");
+            const input01 = document.createElement("input");
+            input01.disabled = true;
+            input01.type = "text";
+            input01.value = "Uczę się skrótów klawiszowych";
+        label01.append(input01);
+    timeboxEditorDiv.append(label01, brElement);
+        const label02 = document.createElement("label");
+        label02.textContent = "Ile minut?";   
+            const input02 = document.createElement("input");
+            input02.disabled = true;
+            input02.type = "number";
+            input02.value = "25";
+        label02.append(input02);     
+    timeboxEditorDiv.append(label02, brElement);
+        const buttonBegin = document.createElement("button");
+        buttonBegin.textContent = "Zacznij";
+    timeboxEditorDiv.append(buttonBegin);
 
-const element = React.createElement(
-    "h2",
-    {className: "Clock", children: "Pozostało 15:25"}    
-);
 
-ReactDOM.render(element, rootElement);
+    const timeboxDiv = document.createElement("div");
+    timeboxDiv.className = "Timebox inactive";
+        const timeboxTitle = document.createElement("h1");
+        timeboxTitle.textContent = "Ucze sie skrotow klawiszowych";
+        const clock = document.createElement("h2");
+        clock.className = "Clock";
+        clock.textContent = "Pozostało 10:20";
+    timeboxDiv.append(timeboxTitle, clock);
+        const progressBar = document.createElement("div");
+        progressBar.className = "ProgressBar";
+            const bar = document.createElement("div");
+            bar.setAttribute("style", "width: 45%; background-color: orangered;");
+        progressBar.append(bar);
+    timeboxDiv.append(progressBar);
+
+appDiv.append(timeboxEditorDiv, timeboxDiv);
+
+rootElement.append(title, hrElement, appDiv);
+
+// const element = React.createElement(
+//     "h2",
+//     {className: "Clock", children: "Pozostało 15:25"}    
+// );
+
+// ReactDOM.render(element, rootElement);
 </script>
 </html>
