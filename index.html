@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Kurs Reacta - Tydzień 2</title>
+    <title>Kurs Reacta - Tydzień 2 Lekcja 9</title>
     <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
     .App {
         font-family: sans-serif;
@@ -62,7 +62,7 @@
     </style>
 </head>
 <body>
-    <h1>Kurs Reacta Tydzień 2 Lekcja 8</h1>
+    <h1>Kurs Reacta Tydzień 2 Lekcja 9</h1>
     <hr>
     <div class="App">
         <div class="TimeboxEditor inactive">
@@ -73,9 +73,6 @@
         <div class="Timebox">
             <h1>Uczę się skrótów klawiszowych</h1>
             <div id="root"></div>
-            <div class="ProgressBar">
-                <div style="width: 45%"></div>
-            </div>
             <button disabled>Start</button>
             <button>Stop</button>
             <button>Pauzuj</button>
@@ -85,46 +82,19 @@
 </body>
 <script type="text/babel">
 
+function Clock({ minutes = 20, seconds = 48 }) {
+    return <h2 className="Clock">Pozostało {minutes}:{seconds}</h2>
+}
 
+function ProgressBar({ percent = 33, trackRemaining = false }) {
+    return (
+        <div className="ProgressBar">
+            {trackRemaining === false ? <div style={{width: `${percent}%`}}></div> : <div style={{marginLeft: `${percent}%`, maxWidth: `100%`}}></div>}
+        </div>
+    );
+}
 
-function Clock({hours = 24, minutes = 60, seconds = 60, miliseconds = 1000}) {
-
-    function limitTimeSettings(timeInterval, min, max) {
-        return Math.min(Math.max(parseInt(timeInterval), min), max);
-    }
-
-    function addZero(numberToFormat, numberOfDigits){
-        const numberToString = numberToFormat.toString();
-        const numberOfSigns = numberToString.length;
-        const missingZeros = numberOfDigits - numberOfSigns;
-        let result = numberToString;
-        if(missingZeros > 0) {
-            for(let i = 0; i < missingZeros; i++){
-                result = '0' + result;
-            }
-        }
-        return result;
-    }
-
-    const limitedHours = limitTimeSettings(hours, 0, 23);
-    const limitedMinutes = limitTimeSettings(minutes, 0, 59);
-    const limitedSeconds = limitTimeSettings(seconds, 0, 59);
-    const limitedMiliseconds = limitTimeSettings(miliseconds, 0, 999);
-
-    const showHours = addZero(limitedHours, 2);
-    const showMinutes = addZero(limitedMinutes, 2);
-    const showSeconds = addZero(limitedSeconds, 2);
-    const showMiliseconds = addZero(limitedMiliseconds, 3);  
-
-return (<h2 className="Clock">
-            Pozostało {showHours}:{showMinutes}:{showSeconds}.{showMiliseconds}
-        </h2>
-);
-};
-
-const rootElement = document.getElementById("root");
-const element = (<Clock />);
-ReactDOM.render(element, rootElement);
+ReactDOM.render(<div><Clock /><ProgressBar /></div>, document.getElementById("root"));
 
 </script>
 </html>
