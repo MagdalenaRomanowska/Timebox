@@ -1,101 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Kurs Reacta - Tydzień 2, lekcja 6, zadanie domowe nr 2 </title>
-    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <title>Kurs Reacta - Tydzień 2</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
-        .App {
-            font-family: sans-serif;
-        }
+    .App {
+        font-family: sans-serif;
+    }
 
-        .TimeboxEditor {
-            text-align: right;
-            border: 1px solid gray;
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
+    .TimeboxEditor {
+        text-align: right;
+        border: 1px solid gray;
+        border-radius: 5px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
 
-        input {
-            min-width: 60%;
-            margin-left: 20px;
-            font-size: 16px;
-        }
+    input {
+        min-width: 60%;
+        margin-left: 20px;
+        font-size: 16px;
+    }
 
-        button {
-            font-size: 16px;
-            margin-left: 10px;
-        }
+    button{
+        font-size: 16px;
+        margin-left: 10px;
+    }
 
-        .Timebox {
-            border: 1px solid gray;
-            border-radius: 5px;
-            padding: 20px;
-            text-align: center;
-        }
+    .Timebox {
+        border: 1px solid gray;
+        border-radius: 5px;
+        padding: 20px;
+        text-align: center;
+    }
 
-        .Clock {
-            color: orangered;
-        }
+    .Clock {
+        color: orangered;
+    }
 
-        .ProgressBar {
-            border: 1px solid orangered;
-            border-radius: 5px;
-            height: 25px;
-            margin-bottom: 20px;
-            padding: 5px;
-        }
+    .ProgressBar {
+        border: 1px solid orangered;
+        border-radius: 5px;
+        height: 25px;
+        margin-bottom: 20px;
+        padding: 5px;
+    }
 
-        .ProgressBar > div {
-            height: 100%;
-            background-color: orangered;
-        }
+    .ProgressBar > div {
+        height: 100%;
+        background-color: orangered;
+    }
 
-        .inactive {
-            filter: blur(2px) grayscale(1);
-        }
+    .inactive {
+        filter: blur(2px) grayscale(1)
+    }
     </style>
 </head>
-
 <body>
-    <div id="root"></div>    
+    <h1>Kurs Reacta Tydzień 2 Lekcja 8</h1>
+    <hr>
+    <div class="App">
+        <div class="TimeboxEditor inactive">
+            <label>Co robisz? <input disabled value="Uczę się skrótów klawiszowych" type="text"></label><br>
+            <label>Ile minut? <input disabled value="25" type="number"></label><br>
+            <button disabled>Zacznij</button>
+        </div>
+        <div class="Timebox">
+            <h1>Uczę się skrótów klawiszowych</h1>
+            <div id="root"></div>
+            <div class="ProgressBar">
+                <div style="width: 45%"></div>
+            </div>
+            <button disabled>Start</button>
+            <button>Stop</button>
+            <button>Pauzuj</button>
+            Liczba przerw: 2
+        </div>
+    </div>
 </body>
+<script type="text/babel">
 
-<script type="text/javascript">
+
+
+function Clock({hours = 24, minutes = 60, seconds = 60, miliseconds = 1000}) {
+
+    function limitTimeSettings(timeInterval, min, max) {
+        return Math.min(Math.max(parseInt(timeInterval), min), max);
+    }
+
+    function addZero(numberToFormat, numberOfDigits){
+        const numberToString = numberToFormat.toString();
+        const numberOfSigns = numberToString.length;
+        const missingZeros = numberOfDigits - numberOfSigns;
+        let result = numberToString;
+        if(missingZeros > 0) {
+            for(let i = 0; i < missingZeros; i++){
+                result = '0' + result;
+            }
+        }
+        return result;
+    }
+
+    const limitedHours = limitTimeSettings(hours, 0, 23);
+    const limitedMinutes = limitTimeSettings(minutes, 0, 59);
+    const limitedSeconds = limitTimeSettings(seconds, 0, 59);
+    const limitedMiliseconds = limitTimeSettings(miliseconds, 0, 999);
+
+    const showHours = addZero(limitedHours, 2);
+    const showMinutes = addZero(limitedMinutes, 2);
+    const showSeconds = addZero(limitedSeconds, 2);
+    const showMiliseconds = addZero(limitedMiliseconds, 3);  
+
+return (<h2 className="Clock">
+            Pozostało {showHours}:{showMinutes}:{showSeconds}.{showMiliseconds}
+        </h2>
+);
+};
 
 const rootElement = document.getElementById("root");
-const e = React.createElement;
-
-const title = e('h1', {}, "Kurs Reacta Tydzień 2");
-const line = e('hr');
-const app = e('div', {className: "App"},
-    e('div', {className: "TimeboxEditor inactive"},
-        e('label', {}, ['Co robisz?',
-            e('input', {disabled: 'true', type: 'text', value: 'Uczę się skrótów klawiszowych',})]),
-        e('br'),
-        e('label', {}, ['Ile minut?',
-            e('input', {disabled: 'true', type: 'number', value: '25',})]),
-        e('br'),
-        e('button', {}, "Zacznij")
-    ),
-    e('div', {className: "Timebox"},
-        [e('h1', {}, 'Uczę się skrótów klawiszowych'),
-        e('h2', {className:'Clock'}, 'Pozostało 13:28'),
-        e('div', {className: 'ProgressBar'},
-            e('div', {style: {width: '45%'}})),
-        e('button', {disabled: 'true'},'Start'),
-        e('button',{},'Stop'),
-        e('button',{},'Pauza'),
-        '  Liczba przerw: 2']
-    )
-);
-
-ReactDOM.render([title, line, app], rootElement);
+const element = (<Clock />);
+ReactDOM.render(element, rootElement);
 
 </script>
 </html>
