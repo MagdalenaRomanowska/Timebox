@@ -1,187 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Kurs Reacta - Tydzień 2</title>
-    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Kurs Reacta - Tydzień 3</title>
+    <script
+      src="https://unpkg.com/react@16/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
-    .App {
+      .App {
         font-family: sans-serif;
-    }
+      }
 
-    .TimeboxEditor {
+      .TimeboxEditor {
         text-align: right;
         border: 1px solid gray;
         border-radius: 5px;
         padding: 20px;
         margin-bottom: 20px;
-    }
+      }
 
-    input {
+      input {
         min-width: 60%;
         margin-left: 20px;
         font-size: 16px;
-    }
+      }
 
-    button{
+      button {
         font-size: 16px;
         margin-left: 10px;
-    }
+      }
 
-    .Timebox {
+      .Timebox {
         border: 1px solid gray;
         border-radius: 5px;
         padding: 20px;
         text-align: center;
-    }
+      }
 
-    .Clock {
+      .Clock {
         color: orangered;
-    }
+      }
 
-    .ProgressBar {
+      .ProgressBar {
         border: 1px solid orangered;
         border-radius: 5px;
         height: 25px;
         margin-bottom: 20px;
         padding: 5px;
-    }
+      }
 
-    .ProgressBar > div {
+      .ProgressBar > div {
         height: 100%;
         background-color: orangered;
-    }
+      }
 
-    .inactive {
-        filter: blur(2px) grayscale(1)
-    }
+      .inactive {
+        filter: blur(2px) grayscale(1);
+      }
     </style>
-</head>
-<body>
-    <h1>Kurs Reacta Tydzień 2 Lekcja 14</h1>
-    <hr>
+  </head>
+  <body>
+    <h1>Kurs Reacta Tydzień 3 Lekcja 2</h1>
+    <hr />
     <div id="root"></div>
-</body>
-<script type="text/babel">
-
-function TimeboxEditor() { // Komponenty funkcyjne mają wadę - żyją bardzo krótko - ich czasem życia zarządza 
-    //React i uruchamia je tylko wtedy gdy potrzebuje się dowiedzieć czy coś się nie zmieniło w elementach, które zwracają te funkcje. Te funkcje zwracają te elementy i przestają istnieć.
-    return (
-        <div className="TimeboxEditor inactive">
-            <label>Co robisz? <input disabled value="Uczę się skrótów klawiszowych" type="text" /></label><br/>
-            <label>Ile minut? <input disabled value="25" type="number" /></label><br />
+  </body>
+  <script type="text/babel">
+    class TimeboxEditor extends React.Component {
+      // Komponenty funkcyjne mają wadę - żyją bardzo krótko - ich czasem życia zarządza
+      //React i uruchamia je tylko wtedy gdy potrzebuje się dowiedzieć czy coś się nie zmieniło w elementach, które zwracają te funkcje. Te funkcje zwracają te elementy i przestają istnieć.
+      state = {
+          title: "Uczę się o kontrolowanych komponentach",
+          totalTimeInMinutes: 15
+      }
+      handleTitleChange = (event) => {
+        this.setState({ title: event.target.value });
+      }
+      handleTotalTimeInMinutesChange = (event) => {
+        this.setState({ totalTimeInMinutes: event.target.value });
+      }
+      render() {
+          const { title, totalTimeInMinutes } = this.state;
+        return (
+          <div className="TimeboxEditor">
+            <label>
+              Co robisz?{" "}
+              <input
+                disabled={false}
+                value={title}
+                onChange = {handleTitleChange}
+                type="text"
+              />
+            </label>
+            <br />
+            <label>
+              Ile minut?{" "}
+              <input disabled={false} value={totalTimeInMinutes} onChange = {handleTotalTimeInMinutesChange} type="number" />
+            </label>
+            <br />
             <button disabled>Zacznij</button>
-        </div>
-    )
-}
-function Clock({ className = "", minutes = 20, seconds = 48 }) { // przekazujemy dodatkową klasę propsem className.
-    return <h2 className={"Clock " + className}>Pozostało {minutes}:{seconds}</h2>
-}
+          </div>
+        ); //defaultValue ustawia wartość elementu tylko raz, na początku np defaultValue="25". To element niekontrolowany.
+      }
+    }
+    function Clock({ className = "", minutes = 20, seconds = 48 }) {
+      // przekazujemy dodatkową klasę propsem className.
+      return (
+        <h2 className={"Clock " + className}>
+          Pozostało {minutes}:{seconds}
+        </h2>
+      );
+    }
 
-function ProgressBar({ className = "", percent = 33 }) {
-    return (
+    function ProgressBar({ className = "", percent = 33 }) {
+      return (
         <div className={"ProgressBar " + className}>
-            <div style={{width: `${percent}%`}}></div>
+          <div style={{ width: `${percent}%` }}></div>
         </div>
-    );
-}
+      );
+    }
 
-class Timebox extends React.Component {  //Komponenty klasowe - są tworzone chwilę przed tym jak jego element osadza się na stronie i są usuwane chwilę po tym jak jego element 
-    //jest usunięty ze strony. Przez cały ten czas komponent żyje, więc może przechowywać dane. 
-    constructor(props) { //Aby zainicjalizować te dane, potrzebny jest constructor , który przyjmuje propsy i wysyła je najszybszą metodą - super - do przodka naszego obiektu. 
+    class Timebox extends React.Component {
+      //Komponenty klasowe - są tworzone chwilę przed tym jak jego element osadza się na stronie i są usuwane chwilę po tym jak jego element
+      //jest usunięty ze strony. Przez cały ten czas komponent żyje, więc może przechowywać dane.
+      constructor(props) {
+        //Aby zainicjalizować te dane, potrzebny jest constructor , który przyjmuje propsy i wysyła je najszybszą metodą - super - do przodka naszego obiektu.
         super(props);
-        this.state = { // stan to po prostu specjalnie nazwana zmienna instancji. Przechowuje zwykłe javascriptowe obiekty.
-            isRunning: false, // czy timer jest właczony,
-            isPaused: false, // czy użytkownik jest w trakcie przerwy,
-            pausesCount: 0, // łączna liczba przerw.
-            elapsedTimeInSeconds: 0
-        }
-        this.handleStart = this.handleStart.bind(this) // zawsze jak przekazujemy referencje do funkcji i potrzebujemy mieć zdefiniowany this, musimy zrobić to ręcznie za pomocą funkcji bind. Będziemy się w tej funkcji odwoływać do this.state, więc musimy zbindować ręcznie z naszym komponentem.
-        this.handleStop = this.handleStop.bind(this)
-        this.togglePause = this.togglePause.bind(this)
-    }
-    handleStart(event) {
-        this.setState({ // metoda do zmiany stanu. Wtedy React wie, że stan się zmienił i aktualizuje komponenty.
-            isRunning: true
-        })   
-        this.startTimer();     
-    }
-    handleStop(event) { 
+        this.state = {
+          // stan to po prostu specjalnie nazwana zmienna instancji. Przechowuje zwykłe javascriptowe obiekty.
+          isRunning: false, // czy timer jest właczony,
+          isPaused: false, // czy użytkownik jest w trakcie przerwy,
+          pausesCount: 0, // łączna liczba przerw.
+          elapsedTimeInSeconds: 0,
+        };
+        this.handleStart = this.handleStart.bind(this); // zawsze jak przekazujemy referencje do funkcji i potrzebujemy mieć zdefiniowany this, musimy zrobić to ręcznie za pomocą funkcji bind. Będziemy się w tej funkcji odwoływać do this.state, więc musimy zbindować ręcznie z naszym komponentem.
+        this.handleStop = this.handleStop.bind(this);
+        this.togglePause = this.togglePause.bind(this);
+      }
+      handleStart(event) {
         this.setState({
-            isRunning: false,
-            isPaused: false,
-            pausesCount: 0,
-            elapsedTimeInSeconds: 0
-        })
+          // metoda do zmiany stanu. Wtedy React wie, że stan się zmienił i aktualizuje komponenty.
+          isRunning: true,
+        });
+        this.startTimer();
+      }
+      handleStop(event) {
+        this.setState({
+          isRunning: false,
+          isPaused: false,
+          pausesCount: 0,
+          elapsedTimeInSeconds: 0,
+        });
         this.stopTimer();
-     }
+      }
 
-    startTimer () {
-        this.intervalId = window.setInterval( //wykorzystujemy API przeglądarki. Zapamiętujemy id interwału, żeby dalej wykorzystać.
-            () => {
-                this.setState(
-                    (prevState) => ({ elapsedTimeInSeconds: prevState.elapsedTimeInSeconds + 0.1}) // po prawej stronie strzałki zwracana wartość. Jeśli ona jest w nawiasach klamrowych to trzeba obłożyć zwykłymi nawiasami, żeby kompilator nie pomylił jej z ciałem funkcji.
-                )
-            }, 
-            100 //interwał czyli co ile wywoływać funkcję powyżej. W milisekundach czyli 1000 to 1 sec.
-        )
-    }
+      startTimer() {
+        this.intervalId = window.setInterval(
+          //wykorzystujemy API przeglądarki. Zapamiętujemy id interwału, żeby dalej wykorzystać.
+          () => {
+            this.setState(
+              (prevState) => ({
+                elapsedTimeInSeconds: prevState.elapsedTimeInSeconds + 0.1,
+              }) // po prawej stronie strzałki zwracana wartość. Jeśli ona jest w nawiasach klamrowych to trzeba obłożyć zwykłymi nawiasami, żeby kompilator nie pomylił jej z ciałem funkcji.
+            );
+          },
+          100 //interwał czyli co ile wywoływać funkcję powyżej. W milisekundach czyli 1000 to 1 sec.
+        );
+      }
 
-    stopTimer() {
+      stopTimer() {
         window.clearInterval(this.intervalId); //zeruje licznik przerw.
-    }
+      }
 
-    togglePause() {
-        this.setState(
-            function(prevState) {// React przekazuje do funkcji aktualny stan, to daje gwarancję, że w momencie jej wywołania będziemy mieć najbardzoej aktualną wersję stanu aplikacji.
-                const isPaused = !prevState.isPaused; // zmiana stanu guzika pauzy.
-                if(isPaused) {
-                    this.stopTimer();
-                } else {
-                    this.startTimer();
-                }
-                return {
-                    isPaused,
-                    pausesCount: isPaused ? prevState.pausesCount + 1 : prevState.pausesCount
-                }//jeśli jesteśmy w stanie przerwy to liczba przerw dodaje 1, jeśli nie - to po prostu zwraca poprzedni stan.
-            }
-        )
-    }
-    render() {
-        const { isPaused, isRunning, pausesCount, elapsedTimeInSeconds } = this.state;
+      togglePause() {
+        this.setState(function (prevState) {
+          // React przekazuje do funkcji aktualny stan, to daje gwarancję, że w momencie jej wywołania będziemy mieć najbardzoej aktualną wersję stanu aplikacji.
+          const isPaused = !prevState.isPaused; // zmiana stanu guzika pauzy.
+          if (isPaused) {
+            this.stopTimer();
+          } else {
+            this.startTimer();
+          }
+          return {
+            isPaused,
+            pausesCount: isPaused
+              ? prevState.pausesCount + 1
+              : prevState.pausesCount,
+          }; //jeśli jesteśmy w stanie przerwy to liczba przerw dodaje 1, jeśli nie - to po prostu zwraca poprzedni stan.
+        });
+      }
+      render() {
+        const { isPaused, isRunning, pausesCount, elapsedTimeInSeconds } =
+          this.state;
         const totalTimeInSeconds = 25; // 25 sekund na razie na sztywno
         const timeLeftInSeconds = totalTimeInSeconds - elapsedTimeInSeconds;
-        const minutesLeft = Math.floor(timeLeftInSeconds/60);
-        const secondsLeft = Math.floor(timeLeftInSeconds%60);
-        const progressInPercent = (elapsedTimeInSeconds / totalTimeInSeconds) * 100.0;
+        const minutesLeft = Math.floor(timeLeftInSeconds / 60);
+        const secondsLeft = Math.floor(timeLeftInSeconds % 60);
+        const progressInPercent =
+          (elapsedTimeInSeconds / totalTimeInSeconds) * 100.0;
         return (
-            <div className="Timebox">
-                <h1>Uczę się skrótów klawiszowych</h1>
-                <Clock minutes={minutesLeft} seconds={secondsLeft} className={isPaused ? "inactive" : ""}/>
-                <ProgressBar percent={progressInPercent} className={isPaused ? "inactive" : ""}/>
-                <button onClick={this.handleStart} disabled={isRunning}>Start</button> 
-                <button onClick={this.handleStop} disabled={!isRunning}>Stop</button>
-                <button onClick={this.togglePause} disabled={!isRunning}>{isPaused ? "Wznów" : "Pauzuj"}</button>
-                Liczba przerw: {pausesCount}
-            </div>
-        )
+          <div className="Timebox">
+            <h1>Uczę się skrótów klawiszowych</h1>
+            <Clock
+              minutes={minutesLeft}
+              seconds={secondsLeft}
+              className={isPaused ? "inactive" : ""}
+            />
+            <ProgressBar
+              percent={progressInPercent}
+              className={isPaused ? "inactive" : ""}
+            />
+            <button onClick={this.handleStart} disabled={isRunning}>
+              Start
+            </button>
+            <button onClick={this.handleStop} disabled={!isRunning}>
+              Stop
+            </button>
+            <button onClick={this.togglePause} disabled={!isRunning}>
+              {isPaused ? "Wznów" : "Pauzuj"}
+            </button>
+            Liczba przerw: {pausesCount}
+          </div>
+        );
+      }
     }
-}
-// gry timer działa to przycisk Start ma być wyłączony.
+    // gry timer działa to przycisk Start ma być wyłączony.
 
-function App() {
-    return (
+    function App() {
+      return (
         <div className="App">
-            <TimeboxEditor />
-            <Timebox />
+          <TimeboxEditor />
+          <Timebox />
         </div>
-    )
-}
-ReactDOM.render(<App />, document.getElementById("root"));
-
-</script>
+      );
+    }
+    ReactDOM.render(<App />, document.getElementById("root"));
+  </script>
 </html>
