@@ -299,24 +299,10 @@
         ],
       };
 
-      // addTimebox = (timebox) => {
-      //     this.setState(prevState => {
-      //         const timeboxes = [timebox, ...prevState.timeboxes]; // tworzymy nową tablicę zawierającą wszystkie z poprzedniego stanu plus nowy element.
-      //         return { timeboxes }; //zwracamy nową tablicę jako nowy stan pod kluczem timeboxes.
-      //     })
-      // }
-
       createTimebox = (timebox) => {
         let newTimebox = [timebox, ...this.state.timeboxes];
         this.setState({ timeboxes: newTimebox });
       };
-
-      // removeTimebox = (indexToRemove) => {
-      //     this.setState(prevState => {
-      //         const timeboxes = prevState.timeboxes.filter((timebox, index) => index !== indexToRemove); //tworzymy nową tablicę bez jednego elementu.
-      //         return { timeboxes };
-      //     })
-      // }
 
       deleteTimebox = (indexToRemove) => {
         let timeboxToDelete = this.state.timeboxes.filter(
@@ -324,15 +310,6 @@
         );
         this.setState({ timeboxes: timeboxToDelete });
       };
-
-      // updateTimebox = (indexToUpdate, updatedTimebox) => {
-      //     this.setState(prevState => {
-      //         const timeboxes = prevState.timeboxes.map((timebox, index) =>
-      //             index === indexToUpdate ? updatedTimebox : timebox
-      //         )
-      //         return { timeboxes };
-      //     })
-      // }
 
       updateTimebox = (indexToUpdate, updatedTimebox) => {
         let timeboxToUpdate = this.state.timeboxes.map((timebox, index) =>
@@ -342,7 +319,6 @@
       };
 
       handleCreate = () => {
-        //this.addTimebox({title: "Nowy timebox", totalTimeInMinutes: 6});
         this.createTimebox({ title: "Nowy timebox", totalTimeInMinutes: 6 });
       };
 
@@ -355,7 +331,6 @@
                 key={index}
                 title={timebox.title}
                 totalTimeInMinutes={timebox.totalTimeInMinutes}
-                //onDelete={() => this.removeTimebox(index)}
                 onDelete={() => this.deleteTimebox(index)}
                 onEdit={() =>
                   this.updateTimebox(index, {
