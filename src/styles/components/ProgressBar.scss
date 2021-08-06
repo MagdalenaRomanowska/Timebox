@@ -11,7 +11,7 @@
     
     &--color-red {
         border-color: orangered;
-    }
+    }    
     
     &__bar {
         height: 100%;
@@ -20,5 +20,12 @@
     
     &--color-red .progress__bar {
         background-color: orangered;
+    }
+
+     .progress__bar {        
+
+        &--color-green {
+            background-color: green;
+        }
     }
 }

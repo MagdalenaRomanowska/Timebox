@@ -1,3 +1,16 @@
-.Clock {
-    color: orangered;
+.clock {
+  color: orangered;
+  display: inline-flex;
+
+  .clock__minutes {
+    color: blue;
+  }
+
+  .clock__separator {
+    color: rgb(255, 255, 255);
+  }
+
+  .clock__seconds {
+    color: rgb(225, 0, 255);
+  }
 }
