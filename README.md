@@ -1,7 +1,7 @@
 ## **General info**
 
 Timebox is made for eductional purposes during React Course 2021 - https://kursreacta.pl/.
-This code represents code for Week 04 Lesson 06.
+This code represents code for Week 04 Lesson 07.
 
 
 # Getting Started with Create React App
