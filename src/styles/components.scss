@@ -1,23 +1,10 @@
-.App {
-    font-family: sans-serif;
-}
-
-.Timebox {
-    border: $default-border;
-    border-radius: $border-radius;
-    padding: 5px;
-    margin-bottom: 10px;
-    background-color: lighten(aqua, 40);
-}
-
-.TimeboxEditor, .TimeboxCreator {
-    text-align: right;
-    border: $default-border;
-    border-radius: $border-radius;
-    padding: 20px;
-    margin-bottom: 10px;
-    background-color: darken(antiquewhite, 50);
-}
+@import "./components/App.scss";
+@import "./components/Clock.scss";
+@import "./components/CurrentTimebox.scss";
+@import "./components/ProgressBar.scss";
+@import "./components/Timebox.scss";
+@import "./components/TimeboxCreator.scss";
+@import "./components/TimeboxEditor.scss";
 
 input {
     min-width: 60%;
@@ -28,28 +15,4 @@ input {
 button{
     font-size: 16px;
     margin-left: 10px;
-}
-
-.CurrentTimebox {
-    border: $default-border;
-    border-radius: $border-radius;
-    padding: 20px;
-    text-align: center;
-    background-color: cadetblue;
-}
-
-.Clock {
-    color: orangered;
-}
-
-.ProgressBar {
-    border: 1px solid orangered;
-    border-radius: $border-radius;
-    height: 25px;
-    margin-bottom: 20px;
-    padding: 5px;
-    > div {
-        height: 100%;
-        background-color: orangered;
-    }
 }
