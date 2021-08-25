@@ -1,14 +1,15 @@
 import React from "react";
-import TimeboxList  from "./TimeboxList";
+
 import EditableTimebox from "./EditableTimebox";
+import TimeboxList from "./TimeboxList";
 
 function App() {
-  return (
-    <div className="App">
-      <TimeboxList />
-      <EditableTimebox />
-    </div>
-  );
+    return (
+        <div className="App">
+            <TimeboxList />
+            <EditableTimebox />
+        </div>
+    )
 }
 
-export default App;
+export default App
