@@ -3,7 +3,7 @@
 Timebox is made for eductional purposes during React Course 2021 - https://kursreacta.pl/. This code represents code for Week 05 Lesson 04.
 You can see it here:
 
-https://csb-z3x2c.netlify.app/
+https://romanowska-magdalena-timebox.netlify.app
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
